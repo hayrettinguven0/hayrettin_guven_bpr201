@@ -1,6 +1,4 @@
-/* ================================================= */
-/* 1. TEMEL STİLLER (Body, Container)                */
-/* ================================================= */
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     background-color: #f0f2f5;
@@ -17,16 +15,10 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     overflow: hidden;
 }
-
-/* ================================================= */
-/* 2. SAYFA YERLEŞİMİ (Layout)                       */
-/* ================================================= */
 main {
     padding: 30px;
     min-height: 400px;
 }
-
-/* 2 Sütunlu (Sidebar + İçerik) yerleşim */
 .layout {
     display: grid;
     grid-template-columns: 240px 1fr;
@@ -44,8 +36,7 @@ main {
 }
 .sidebar {
  padding: 20px;
-    /* Arka plan beyaz kalacak, bu güzel */
- border-right: 1px solid #eef1f3; /* Çok soluk bir dikey çizgi (çerçeve) ekle */
+ border-right: 1px solid #eef1f3; 
  min-height: 300px;
 }
 .sidebar a {
@@ -59,22 +50,14 @@ main {
 .sidebar a:hover {
     background: rgba(10, 147, 150, 0.06);
 }
-
-/* Ana içerik alanı (Sidebar varken) */
 .content {
     padding: 20px;
 }
-
-/* Tam genişlikli içerik (Sidebar yokken - Giriş, Kayıt vb.) */
 .content-full {
     width: 100%;
     max-width: 800px;
     margin: 0 auto;
 }
-
-/* ================================================= */
-/* 3. HEADER, NAVİGASYON VE FOOTER                   */
-/* ================================================= */
 header {
     background: linear-gradient(135deg, #005f73, #0a9396);
     color: white;
@@ -102,7 +85,7 @@ nav {
     display: flex;
     align-items: center;
     gap: 15px;
-    flex-wrap: wrap; /* Mobil için */
+    flex-wrap: wrap; 
 }
 nav a {
     color: white;
@@ -128,28 +111,20 @@ footer {
     font-size: 0.9em;
     color: #777;
 }
-
-/* ================================================= */
-/* 4. GENEL BİLEŞENLER (Buton, Mesaj vb.)            */
-/* ================================================= */
-
-/* Genel Başlıklar */
-/* Ana İçerik Başlıkları */
 main h2 {
     color: #005f73;
-    border-bottom: 2px solid #f0f0f0; /* Daha soluk bir çizgi */
+    border-bottom: 2px solid #f0f0f0; 
     padding-bottom: 10px;
-    font-size: 1.9em; /* Biraz daha büyük */
-    margin-top: 0; /* İçerik kutusuna tam dayansın */
+    font-size: 1.9em; 
+    margin-top: 0; 
 }
 main h3 {
     color: #0a9396;
-    margin-top: 25px; /* "Tüm Konular" başlığına üst boşluk */
+    margin-top: 25px; 
     border-bottom: 1px solid #eee;
     padding-bottom: 8px;
     font-size: 1.4em;
 }
-/* Buton stilleri */
 .btn {
     display: inline-block;
     background-color: #0a9396;
@@ -196,8 +171,6 @@ main h3 {
 .btn-browse:hover {
     background-color: #087a78;
 }
-
-/* Hata ve Bilgi Mesajları */
 .mesaj {
     padding: 15px;
     margin-bottom: 20px;
@@ -215,8 +188,6 @@ main h3 {
     background-color: #d1ecf1;
     border-color: #bee5eb;
 }
-
-/* Giriş sonrası hoş geldin bandı */
 .welcome-banner {
     background: linear-gradient(90deg, #dff7f6 0%, #ffffff 100%);
     border: 1px solid #ccefee;
@@ -253,12 +224,6 @@ main h3 {
     margin: 0;
     color: #2f6b6a;
 }
-
-/* ================================================= */
-/* 5. FORMLAR (Giriş, Kayıt, Yeni Konu)              */
-/* ================================================= */
-
-/* Standart Form Stili (Yeni Konu) */
 .forum-form {
     max-width: 700px;
     margin: 20px auto;
@@ -307,8 +272,6 @@ main h3 {
 .forum-form button:hover {
     background-color: #005f73;
 }
-
-/* Giriş/Kayıt Form Kutusu (Sade Arka Plan İçin) */
 .auth-card {
     display: flex;
     gap: 20px;
@@ -346,7 +309,7 @@ main h3 {
     max-width: 100%;
     padding: 0;
     border: none;
-    background: transparent; /* auth-right'ın arkaplanını kullan */
+    background: transparent; 
 }
 .auth-right .forum-form input[type="text"],
 .auth-right .forum-form input[type="password"],
@@ -364,57 +327,45 @@ main h3 {
     width: auto;
     cursor: pointer;
 }
-
-/* ================================================= */
-/* 6. SAYFA ÖZEL STİLLERİ (Konu, Yorum vb.)          */
-/* ================================================= */
-
-/* YENİ VE MODERN KONU LİSTESİ */
 .konu-kutusu {
-    background-color: #ffffff; /* Düz beyaz zemin */
-    border: 1px solid #eef1f3; /* Çok daha soluk bir sınır */
-    border-left: 4px solid #0a9396; /* Normal konu (renkli çizgi) */
+    background-color: #ffffff;
+    border: 1px solid #eef1f3; 
+    border-left: 4px solid #0a9396; 
     padding: 18px 20px;
     margin-bottom: 12px;
-    border-radius: 8px; /* Daha modern köşeler */
+    border-radius: 8px; 
     position: relative;
     transition: all 0.2s ease;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.02); /* Çok hafif bir gölge */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02); 
 }
 .konu-kutusu:hover {
-    transform: translateY(-3px); /* Havalı "kalkma" efekti */
+    transform: translateY(-3px); 
     box-shadow: 0 5px 15px rgba(0,0,0,0.07);
-    border-left-color: #005f73; /* Hoverda vurgu */
+    border-left-color: #005f73; 
 }
-
-/* Sabitlenmiş Konu Stili */
 .konu-kutusu.sabitlenmis {
-    background-color: #fffaf0; /* Soluk sarı arka plan */
-    border-color: #ffeebe; /* Sarımsı sınır */
-    border-left-color: #ee9b00; /* Ana turuncu vurgu */
+    background-color: #fffaf0; 
+    border-color: #ffeebe; 
+    border-left-color: #ee9b00; 
 }
 .konu-kutusu.sabitlenmis:hover {
     border-color: #ee9b00;
     box-shadow: 0 5px 15px rgba(238, 155, 0, 0.1);
 }
-
-/* Konu Başlığı (H4) */
 .konu-kutusu h4 { 
     margin: 0 0 5px 0; 
 }
 .konu-kutusu h4 a {
     text-decoration: none;
     color: #005f73;
-    font-size: 1.2em; /* Daha okunaklı bir boyut */
-    font-weight: 600; /* Daha tok bir yazı */
+    font-size: 1.2em; 
+    font-weight: 600; 
     transition: color 0.2s ease;
 }
 .konu-kutusu h4 a:hover {
-    color: #ee9b00; /* Hover rengi turuncu olsun */
-    text-decoration: none; /* Alt çizgiyi kaldır */
+    color: #ee9b00; 
+    text-decoration: none; 
 }
-
-/* Yazar/Tarih Bilgisi */
 .konu-meta {
     font-size: 0.9em;
     color: #555;
@@ -424,17 +375,14 @@ main h3 {
     color: #333;
     font-weight: 600;
 }
-
-/* Sabitleme İkonu (Sağ üst) */
 .sabit-ikonu {
     position: absolute;
-    top: 18px; /* Kutu içi boşlukla aynı hizada */
+    top: 18px; 
     right: 20px;
-    font-size: 1.1em; /* İkonu biraz büyüt */
+    font-size: 1.1em; 
     font-weight: normal;
-    color: #f0ad4e; /* Daha canlı bir sarı */
+    color: #f0ad4e; 
 }
-/* Konu Detay Sayfası */
 .konu-icerigi {
     background-color: #fcfcfc;
     border: 1px solid #eee;
@@ -444,8 +392,6 @@ main h3 {
     font-size: 1.05em;
     border-radius: 5px;
 }
-
-/* Admin Paneli (Konu Detay) */
 .admin-araclari {
     background-color: #fffbe6;
     border: 1px solid #ffe58f;
@@ -459,13 +405,11 @@ main h3 {
     font-weight: bold;
 }
 .admin-araclari a.admin-sil {
-    color: #dc3545; /* Kırmızı Silme Linki */
+    color: #dc3545; 
 }
 .admin-araclari a.admin-sil:hover {
     color: #a71d2a;
 }
-
-/* Yorumlar (Konu Detay) */
 .yorum {
     background: #fff;
     border: 1px solid #eef3f3;
@@ -488,12 +432,6 @@ main h3 {
     color: #6b8b8a;
     font-size: 0.85em;
 }
-
-/* ================================================= */
-/* 7. ÖZEL GİRİŞ EKRANI (SPLASH SCREEN) STİLLERİ     */
-/* ================================================= */
-
-/* Sadece "body-splash" class'ı varken bu stiller çalışır */
 body.body-splash {
     background: linear-gradient(135deg, #005f73 0%, #0a9396 60%, #ee9b00 100%);
     background-size: cover;
@@ -516,8 +454,6 @@ body.body-splash footer {
 body.body-splash main {
     padding: 0;
 }
-
-/* Ana Giriş Ekranı Paneli (giris_ekrani) */
 .giris-secenekleri {
     text-align: center;
     padding: 80px 40px;
@@ -572,10 +508,8 @@ body.body-splash main {
     color: #005f73;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
-
-/* Giriş & Kayıt Formları (giris, kayit) - Splash Ekrandayken */
 body.body-splash .auth-card {
-    background: rgba(0, 0, 0, 0.15) !important; /* "ful beyaz" sorununu çözer */
+    background: rgba(0, 0, 0, 0.15) !important; 
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.18);
@@ -604,7 +538,7 @@ body.body-splash .auth-right .forum-form input[type="password"],
 body.body-splash .auth-right .forum-form input[type="email"] {
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.3);
-    color: #ffffff; /* Yazı rengi beyaz */
+    color: #ffffff; 
     border-radius: 6px;
 }
 body.body-splash .auth-right .forum-form input::placeholder {
@@ -625,16 +559,12 @@ body.body-splash .auth-right .forum-form button:hover {
     color: #005f73;
     transform: translateY(-2px);
 }
-
-/* ================================================= */
-/* 8. RESPONSIVE (MOBİL) AYARLAR                     */
-/* ================================================= */
 @media (max-width: 820px) {
     .layout {
         grid-template-columns: 1fr;
     }
     .sidebar {
-        order: 2; /* Sidebar'ı mobilde aşağı al */
+        order: 2;
     }
     .auth-card {
         flex-direction: column;
@@ -645,40 +575,25 @@ body.body-splash .auth-right .forum-form button:hover {
         border-right: none;
     }
 }
-/* ================================================= */
-/* 9. FORUM ANA SAYFA ARKA PLAN STİLİ (Daha Temiz)   */
-/* ================================================= */
-
-/* Forum sayfalarına (anasayfa, konu_detay vb.) koyu gradient arka planı ver */
 body.body-forum {
     background: linear-gradient(135deg, #005f73 0%, #0a9396 60%, #ee9b00 100%);
     background-size: cover;
     background-attachment: fixed;
 }
-
-/* Koyu arka plan üzerinde, ana içerik kutusunun "yüzmesini" sağla */
 body.body-forum .container {
-    /* Mevcut beyaz arkaplanı ve stilleri korunacak */
-    /* Sadece daha güçlü bir gölge ve boşluk ekliyoruz */
     box-shadow: 0 10px 45px rgba(0, 0, 0, 0.25);
     margin-top: 20px;
     margin-bottom: 20px;
 }
-/* ================================================= */
-/* 10. KULLANICI YÖNETİM SAYFASI STİLLERİ           */
-/* ================================================= */
-
 .kullanici-listesi {
     width: 100%;
-    overflow-x: auto; /* Mobilde tablo taşarsa kaydırılsın */
+    overflow-x: auto; 
 }
-
 .kullanici-listesi table {
     width: 100%;
-    border-collapse: collapse; /* Çizgileri birleştir */
+    border-collapse: collapse; 
     font-size: 0.95em;
 }
-
 .kullanici-listesi th,
 .kullanici-listesi td {
     border: 1px solid #eef1f3;
@@ -686,18 +601,14 @@ body.body-forum .container {
     text-align: left;
     vertical-align: middle;
 }
-
 .kullanici-listesi thead th {
     background-color: #f7f9fb;
     color: #005f73;
     font-size: 1em;
 }
-
 .kullanici-listesi tbody tr:nth-child(even) {
-    background-color: #fcfcfc; /* Zebra deseni */
+    background-color: #fcfcfc; 
 }
-
-/* Rol etiketleri */
 .rol-etiket {
     padding: 4px 8px;
     border-radius: 4px;
@@ -707,23 +618,21 @@ body.body-forum .container {
     text-transform: uppercase;
 }
 .rol-etiket.admin {
-    background-color: #ee9b00; /* Turuncu */
+    background-color: #ee9b00; 
 }
 .rol-etiket.uye {
-    background-color: #0a9396; /* Turkuaz */
+    background-color: #0a9396; 
 }
-
-/* Eylem linkleri */
 .eylem-link {
     text-decoration: none;
     font-weight: bold;
     padding: 5px 0;
 }
 .eylem-link.admin-yap {
-    color: #28a745; /* Yeşil */
+    color: #28a745; 
 }
 .eylem-link.uye-yap {
-    color: #dc3545; /* Kırmızı */
+    color: #dc3545; 
 }
 .eylem-link:hover {
     text-decoration: underline;
