@@ -1,8 +1,6 @@
 <?php
-// PHP Kodları 
 include 'db.php';
 
-// Hata olursa bunu dolduracağız.
 $mesaj = "";
 
 // Form kontrolü
