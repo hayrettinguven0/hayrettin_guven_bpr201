@@ -1,11 +1,52 @@
 /* Bütün sayfaya temel stiller */
 body {
     font-family: Arial, sans-serif;
-    background-color: #b9aed1; 
+    background-color: #cfb8ff; 
     margin: 0;
 }
 .card-body h1{
 font-family : 'Mont serrat', sans-serif;
 font-weight: 700;
 color: #6a0dad;
+}
+.makyaj-logo {
+    height: 60px; 
+    width: auto;
+    margin-bottom: 20px; 
+}
+.btn-mor {
+    background-color: #6a0dad; 
+    color: #ffffff; 
+    border: none; 
+}
+.btn-mor:hover {
+    background-color: #5a0b9a;
+    color: #ffffff;
+}
+/*ilk sayfa stilleri*/
+/* ilk sayfa logosu */
+.ilk-sayfa-logo {
+    height: 80px; 
+    width: auto;
+    margin-bottom: 25px; 
+}
+
+/* giriş yap ve üye ol kartları kutusu*/
+.ilk-sayfa-card {
+    background-color: #d6e4ff; 
+    border: 3px solid #cd88ff; 
+    border-radius: 15px; 
+    padding: 30px; 
+}
+
+/* kaydolmadan devam et */
+.btn-secondary.ilk-sayfa {
+    background-color: #9c27b0; 
+    border-color: #9c27b0;
+    color: #ffffff;
+}
+
+.btn-secondary.ilk-sayfa:hover {
+    background-color: #7b1fa2; 
+    border-color: #7b1fa2;
 }

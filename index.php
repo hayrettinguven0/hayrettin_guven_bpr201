@@ -77,7 +77,14 @@ session_start();
             } elseif ($sayfa == 'konu') {
                 include 'sayfa_konu_detay.php';
                 
-            } else { 
+            }
+            elseif ($sayfa == 'sabitle' ) {
+                include 'sayfa_konu_sabitle.php';
+            }
+            elseif ($sayfa == 'konu_sil' ) {
+                include 'sayfa_konu_sil.php';
+            }
+             else { 
                 include 'ilk_sayfa.php'; 
             }
             
