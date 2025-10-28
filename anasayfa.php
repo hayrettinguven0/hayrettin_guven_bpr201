@@ -69,7 +69,7 @@ include 'db.php';
     } else { 
         // konu yoksa
         echo '<div class="list-group-item">';
-        echo '    <h5 class="text-center text-muted">Henüz hiç konu açılmamış.</h5>';
+        echo '    <h5 class="text-center text-muted">Opss... Gösterilecek bir konu açılmamış.</h5>';
         echo '    <p class="text-center text-muted mb-0">İlk konuyu sen aç!</p>';
         echo '</div>';
     }
