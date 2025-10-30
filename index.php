@@ -31,7 +31,7 @@ session_start();
                 
                 // yaptıysa
                 echo '<span class="navbar-text me-3">';
-                echo 'Hoş geldin, <strong>' . htmlspecialchars($_SESSION['kullanici_adi']) . '</strong>!';
+                echo ' <strong>' . htmlspecialchars($_SESSION['kullanici_adi']) . '</strong>!';
                 echo '</span>';
                 
                 // çıkış butonu

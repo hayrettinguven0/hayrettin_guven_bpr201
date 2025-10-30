@@ -6,36 +6,26 @@ include 'db.php';
   <h1 class="h4">Forum Konuları</h1>
   
   <?php
-
   if ( isset($_SESSION['kullanici_id']) ) {
-      
       echo '<a href="index.php?sayfa=konu_ac" class="btn btn-primary">Yeni Konu Aç</a>';
-      
   } else {
-      
       echo '<a href="index.php?sayfa=giris" class="btn btn-primary disabled">Konu Açmak İçin Giriş Yapın veya Üye Olun</a>';
-      
-  }
+         }
   ?>
   
 </div>
-
 <div class="list-group">
     
     <?php
     // veritabanından çekme
-    
     $sql = "SELECT k.*, u.kullanici_adi 
             FROM konular k 
             LEFT JOIN uyeler u ON k.olusturan_id = u.id 
             ORDER BY k.sabitlendi_mi DESC, k.id DESC";
-            
     $sonuc = $conn->query($sql);
-    
     // konu varmı
     if ($sonuc->num_rows > 0) {
         while($konu = $sonuc->fetch_assoc()) {
-            
             $kart_stili ="";
             $ikon ="";
             if ($konu['sabitlendi_mi'] == 1) { 
@@ -59,12 +49,9 @@ include 'db.php';
                 echo '<a href="' . $sabitle_link . '" class="btn ' . $sabitle_renk . ' btn-sm me-2">' . $sabitle_yazi . '</a>';
                 $sil_link = 'index.php?sayfa=konu_sil&id=' . $konu['id']; 
                 echo '<a href="' . $sil_link . '" class="btn btn-danger btn-sm" onclick="return confirm(\'Emin misin\')">Sil</a>';                
-                echo '</div>'; 
-                
+                echo '</div>';   
             } 
-
             echo '</a>'; 
-
         } 
     } else { 
         // konu yoksa
@@ -75,5 +62,4 @@ include 'db.php';
     }
     $conn->close();
     ?>
-
 </div> 

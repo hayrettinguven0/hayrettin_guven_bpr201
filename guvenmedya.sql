@@ -1,6 +1,8 @@
 create database guvenmedya;
 use guvenmedya;
 
+
+
 /*Üyeler*/
 create table uyeler(
 id int auto_increment primary key,
@@ -66,6 +68,8 @@ select * from yorumlar;
 
 /* Admin Yetkisi Verme*/
 update uyeler set kullanici_tipi = 1 where id = 1;
+update uyeler set kullanici_tipi = 1 where id = 3;
+
 
 /*Konu Etiketleri*/
 create table etiketler(
