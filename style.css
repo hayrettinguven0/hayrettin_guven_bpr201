@@ -1,52 +1,143 @@
-/* Bütün sayfaya temel stiller */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #cfb8ff; 
-    margin: 0;
+    background-color: #f0f2f5 !important; 
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #1c1e21;
 }
-.card-body h1{
-font-family : 'Mont serrat', sans-serif;
-font-weight: 700;
-color: #6a0dad;
+
+/* navbar ayar */
+.navbar {
+    backdrop-filter: blur(10px); 
+    background-color: rgba(255, 255, 255, 0.95) !important;
 }
+
+.navbar-brand span {
+    font-size: 1.2rem;
+    letter-spacing: -0.5px;
+}
+
+/* Kartlar */
+.card {
+    border: none !important;
+    border-radius: 12px !important;
+    transition: all 0.3s ease;
+}
+
+.card-header {
+    background-color: transparent !important;
+    border-bottom: 1px solid #f0f2f5 !important;
+}
+
+/* butonlar */
+.btn-primary, .btn-mor {
+    background-color: #6f42c1 !important;
+    border-color: #6f42c1 !important;
+    font-weight: 600 !important;
+    transition: transform 0.2s, opacity 0.2s !important;
+}
+
+.btn-primary:hover, .btn-mor:hover {
+    opacity: 0.9;
+    transform: translateY(-1px); 
+}
+
+/* Liste */
+.list-group-item {
+    transition: background-color 0.2s;
+    border-left: 0 !important;
+    border-right: 0 !important;
+}
+
+.list-group-item:hover {
+    background-color: #f8f9fa !important;
+}
+
+/* göreseller*/
 .makyaj-logo {
-    height: 60px; 
-    width: auto;
-    margin-bottom: 20px; 
-}
-.btn-mor {
-    background-color: #6a0dad; 
-    color: #ffffff; 
-    border: none; 
-}
-.btn-mor:hover {
-    background-color: #5a0b9a;
-    color: #ffffff;
-}
-/*ilk sayfa stilleri*/
-/* ilk sayfa logosu */
-.ilk-sayfa-logo {
-    height: 80px; 
-    width: auto;
-    margin-bottom: 25px; 
+    max-height: 80px;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
 }
 
-/* giriş yap ve üye ol kartları kutusu*/
-.ilk-sayfa-card {
-    background-color: #d6e4ff; 
-    border: 3px solid #cd88ff; 
-    border-radius: 15px; 
-    padding: 30px; 
+.img-thumbnail, .rounded-circle {
+    border: 2px solid #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-/* kaydolmadan devam et */
-.btn-secondary.ilk-sayfa {
-    background-color: #9c27b0; 
-    border-color: #9c27b0;
-    color: #ffffff;
+/* popover */
+.popover {
+    border: none !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15) !important;
+    border-radius: 10px !important;
 }
 
-.btn-secondary.ilk-sayfa:hover {
-    background-color: #7b1fa2; 
-    border-color: #7b1fa2;
+.popover-header {
+    background-color: #6f42c1 !important;
+    color: white !important;
+    border-radius: 10px 10px 0 0 !important;
+}
+
+/* Mobil için */
+@media (max-width: 768px) {
+    .container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .card-body {
+        padding: 1rem !important;
+    }
+}
+
+/* tema rengi */
+body {
+  background-color: #ce93d8; 
+  color: #333333; 
+  font-family: sans-serif;
+  margin: 0;
+}
+
+/* içerik girme yeri */
+.container {
+  background-color: #f3e5f5; 
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* link */
+a {
+  color: #6a1b9a;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #8e24aa;
+  text-decoration: underline;
+}
+
+/* form içi görsel */
+.card-body img {
+    max-width: 200px;
+    height: auto;
+    margin: 0 auto;
+    display: block;
+}
+
+/* navbardaki logo*/
+.navbar-brand img {
+    max-height: 40px !important;
+}
+
+/*arka plan görseli*/
+body {
+    background-image: linear-gradient(rgba(240, 242, 245, 0.5), rgba(240, 242, 245, 0.5)), url('arkaplan.jpg');
+    background-size: cover; 
+    background-attachment: fixed; 
+    background-position: center;
+    background-repeat: no-repeat;
+
+    font-family: 'Inter', -apple-system, sans-serif;
+    color: #1c1e21;
+    margin: 0;
 }

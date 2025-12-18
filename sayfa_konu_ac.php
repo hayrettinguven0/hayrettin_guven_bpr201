@@ -1,134 +1,144 @@
 <?php
-if ( !isset($_SESSION['kullanici_id']) ) {
+// Oturum kontrolü
+if (!isset($_SESSION['kullanici_id'])) {
     header("Location: index.php?sayfa=anasayfa");
     exit;
 }
+
 include 'db.php';
 $mesaj = "";
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
-    $baslik = $_POST['baslik'];
-    $icerik = $_POST['icerik']; 
-    $etiketler_str = $_POST['etiketler']; 
+    // Form verileri
+    $baslik = trim($_POST['baslik']);
+    $icerik = trim($_POST['icerik']); 
+    $etiketler_str = trim($_POST['etiketler']);
     $olusturan_id = $_SESSION['kullanici_id'];
-    if (empty(trim($baslik))) {
-        $mesaj = "Hata: Konu başlığı boş olamaz!"; 
-    } 
-    elseif (empty(trim($icerik))) { 
-        $mesaj = "Hata: İçerik boş olamaz!!"; 
+
+    // Fotoğraf yükleme işlemi
+    $dosya_adi_db = null; 
+
+    if (isset($_FILES['resim']) && $_FILES['resim']['error'] == 0) {
+        $dosya = $_FILES['resim'];
+        $uzanti = strtolower(pathinfo($dosya['name'], PATHINFO_EXTENSION));
+        $izin_verilenler = ['jpg', 'jpeg', 'png', 'gif'];
+
+        if (in_array($uzanti, $izin_verilenler)) {
+            $yeni_isim = "konu_" . uniqid() . "." . $uzanti;
+            $yukleme_yolu = 'uploads/' . $yeni_isim;
+
+            if (move_uploaded_file($dosya['tmp_name'], $yukleme_yolu)) {
+                $dosya_adi_db = $yeni_isim; 
+            }
+        }
     }
-    else { 
-        // etiketler işlemleri
-        $etiketler_dizi_ham = explode(',', $etiketler_str);
-        $etiket_idler = array();
+
+    // Girdi kontrolleri
+    if (empty($baslik) || empty($icerik)) {
+        $mesaj = "Hata: Başlık ve içerik alanları boş bırakılamaz!"; 
+    } else { 
         
-        foreach($etiketler_dizi_ham as $etiket_ham) {
-            $etiket_temiz = strtolower(trim($etiket_ham)); 
-            
-            if (!empty($etiket_temiz) && mb_strlen($etiket_temiz) <= 50) {
-                
-                $stmt_etiket_bul = $conn->prepare("SELECT id FROM etiketler WHERE etiket_adi = ?");
-                if (!$stmt_etiket_bul) { 
-                    die("Hata:" . $conn->error); 
-                }
-                $stmt_etiket_bul->bind_param("s", $etiket_temiz);
-                if (!$stmt_etiket_bul->execute()) { 
-                    die("Hata:" . $stmt_etiket_bul->error); 
-                }
-                $sonuc_etiket = $stmt_etiket_bul->get_result();
-                $etiket_id = null;
-                
-                if($sonuc_etiket->num_rows > 0){
-                    $etiket_satir = $sonuc_etiket->fetch_assoc();
-                    $etiket_id = $etiket_satir['id']; 
-                } else {
-                    $stmt_etiket_ekle = $conn->prepare("insert into etiketler (etiket_adi) values(?)");
-                    if (!$stmt_etiket_ekle) { 
-                        die("Hata:" . $conn->error); 
-                    }
-                    $stmt_etiket_ekle->bind_param("s", $etiket_temiz);
-                    if ($stmt_etiket_ekle->execute()) {
-                        $etiket_id = $conn->insert_id; 
-                    } else {
-                        die("Hata:" . $stmt_etiket_ekle->error); 
-                    }
-                    $stmt_etiket_ekle->close();
-                }
-                $stmt_etiket_bul->close(); 
-                
-                if ($etiket_id !== null && !in_array($etiket_id, $etiket_idler)) {
-                    $etiket_idler[] = $etiket_id; 
-                }
-            } 
-        } 
-        $stmt_konu = $conn->prepare("INSERT INTO konular (baslik, olusturan_id) VALUES (?, ?)");
-        if (!$stmt_konu) { die("Hata (konu prepare): " . $conn->error); } 
-        $stmt_konu->bind_param("si", $baslik, $olusturan_id);
+        // Konuyu veritabanına ekle
+        $stmt_konu = $conn->prepare("INSERT INTO konular (baslik, icerik, olusturan_id, resim) VALUES (?, ?, ?, ?)");
+        $stmt_konu->bind_param("ssis", $baslik, $icerik, $olusturan_id, $dosya_adi_db);
         
         if ($stmt_konu->execute()) {
             $yeni_konu_id = $conn->insert_id;
-            $stmt_konu->close(); 
+            $stmt_konu->close();
+
+            // İlk yorumu ekle
             $stmt_yorum = $conn->prepare("INSERT INTO yorumlar (konu_id, yazar_id, icerik) VALUES (?, ?, ?)");
-            if (!$stmt_yorum) { die("Hata (yorum prepare): " . $conn->error); } 
-            $stmt_yorum->bind_param("iis", $yeni_konu_id, $olusturan_id, $icerik); 
-            if ($stmt_yorum->execute()) 
-                {
-                $stmt_yorum->close(); 
-                if(!empty($etiket_idler)){
-                    $stmt_konu_etiket = $conn->prepare("insert into konu_etiketleri (konu_id, etiket_id) values(?,?)");
-                    if(!$stmt_konu_etiket) { 
-                        die("Hata (konu_etiket prepare): " . $conn->error); 
-                    }
-                    foreach($etiket_idler as $tek_etiket_id){ 
-                        $stmt_konu_etiket->bind_param ("ii", $yeni_konu_id, $tek_etiket_id);
-                        if(!$stmt_konu_etiket->execute()){
-                            if ($conn->errno != 1062) { 
-                                die ("Hata (konu_etiket execute):" . $stmt_konu_etiket->error);
-                            }
+            $stmt_yorum->bind_param("iis", $yeni_konu_id, $olusturan_id, $icerik);
+            $stmt_yorum->execute();
+            $stmt_yorum->close();
+
+            // Etiketleri işle
+            if(!empty($etiketler_str)){
+                $etiketler_dizi = explode(',', $etiketler_str);
+                foreach($etiketler_dizi as $etiket_ham) {
+                    $etiket_temiz = strtolower(trim($etiket_ham));
+                    if (!empty($etiket_temiz)) {
+                        // Etiket varlık kontrolü
+                        $stmt_ebul = $conn->prepare("SELECT id FROM etiketler WHERE etiket_adi = ?");
+                        $stmt_ebul->bind_param("s", $etiket_temiz);
+                        $stmt_ebul->execute();
+                        $sonuc = $stmt_ebul->get_result();
+                        
+                        if($sonuc->num_rows > 0){
+                            $etiket_id = $sonuc->fetch_assoc()['id'];
+                        } else {
+                            $stmt_eekle = $conn->prepare("INSERT INTO etiketler (etiket_adi) VALUES (?)");
+                            $stmt_eekle->bind_param("s", $etiket_temiz);
+                            $stmt_eekle->execute();
+                            $etiket_id = $conn->insert_id;
+                            $stmt_eekle->close();
                         }
-                    } 
-                    $stmt_konu_etiket->close();
-                } 
-                header("location: index.php?sayfa=anasayfa");
-                exit;
-            } else { 
-                $mesaj = "Hata: Konu başlığı eklendi ancak ilk yorum eklenemedi: " . $stmt_yorum->error;
-                $stmt_yorum->close(); 
+                        $stmt_ebul->close();
+
+                        // Bağlantı tablosuna ekle
+                        $stmt_bagla = $conn->prepare("INSERT IGNORE INTO konu_etiketleri (konu_id, etiket_id) VALUES (?, ?)");
+                        $stmt_bagla->bind_param("ii", $yeni_konu_id, $etiket_id);
+                        $stmt_bagla->execute();
+                        $stmt_bagla->close();
+                    }
+                }
             }
+
+            header("location: index.php?sayfa=anasayfa");
+            exit;
+
         } else { 
-            $mesaj = "Hata: Konu açılırken bir sorun oluştu: " . $stmt_konu->error;
-            $stmt_konu->close(); 
+            $mesaj = "Hata: Konu oluşturulurken bir problem oluştu!";
         }
     } 
-    if (!empty($mesaj)) {
-         $conn->close();
-    }
-} 
+}
 ?>
+
 <div class="row">
     <div class="col-md-8 mx-auto">
-        <div class="card shadow-sm">
-            <div class="card-body p-4">
-                <h1 class="h3 text-center">Yeni Konu Aç</h1> 
-                <?php
-                if (!empty($mesaj)) {
-                    echo "<div class='alert alert-danger'>$mesaj</div>";
-                }
-                ?>
-                <form action="index.php?sayfa=konu_ac" method="POST">
+        <div class="card shadow-sm border-0 rounded-4">
+            <div class="card-body p-4 p-md-5">
+                <div class="text-center mb-4">
+                    <h1 class="h3 fw-bold text-primary">Yeni Bir Konu Başlatın</h1>
+                    <p class="text-muted small">Düşüncelerinizi toplulukla paylaşın!</p>
+                </div>
+                
+                <?php if (!empty($mesaj)) echo "<div class='alert alert-danger py-2 small border-0'>$mesaj</div>"; ?>
+
+                <form action="index.php?sayfa=konu_ac" method="POST" enctype="multipart/form-data">
                     <div class="mb-3">
-                        <label for="baslik" class="form-label">Konu Başlığı:</label>
-                        <input type="text" class="form-control" id="baslik" name="baslik" required>
+                        <label for="baslik" class="form-label small fw-bold text-secondary">Konu Başlığı</label>
+                        <input type="text" class="form-control form-control-lg border-light bg-light" 
+                               id="baslik" name="baslik" placeholder="Başlığı buraya yazın..." required>
                     </div>
+                    
                     <div class="mb-3">
-                        <label for="icerik" class="form-label">İlk Yorumunuz (İçerik):</label>
-                        <textarea class="form-control" id="icerik" name="icerik" rows="5" required></textarea>
+                        <label for="icerik" class="form-label small fw-bold text-secondary">İçerik</label>
+                        <textarea class="form-control border-light bg-light" id="icerik" name="icerik" 
+                                  rows="8" placeholder="Konuyu detaylandırın..." required></textarea>
                     </div>
-                   <div class ="mb-3">
-                    <label for="etiketler" class="form--label">Konuyu tanımlayacak etiketler(Virgülle ayırın. ör:güven, medya, destek, forum) </label>
-                    <input type="text" class="form-control" id="etiketler" name="etiketler"> </div>
-                   <div class="d-grid">
-                        <button type="submit" class="btn btn-primary">Konuyu Aç</button>
+                    
+                    <div class="mb-3">
+                        <label for="etiketler" class="form-label small fw-bold text-secondary">Etiketler</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-0"><i class="bi bi-tags"></i></span>
+                            <input type="text" class="form-control border-light bg-light" id="etiketler" name="etiketler" 
+                                   placeholder="ör: güven, medya, destek (virgülle ayırın)">
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="resim" class="form-label small fw-bold text-secondary">Konu Görseli (İsteğe Bağlı)</label>
+                        <input type="file" class="form-control form-control-sm border-light bg-light" id="resim" name="resim" accept="image/*">
+                        <div class="form-text" style="font-size: 0.7rem;">Sadece resim dosyaları (jpg, png, gif) kabul edilir.</div>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg rounded-pill shadow-sm">
+                            <i class="bi bi-send-plus me-2"></i>Konuyu Yayınla
+                        </button>
+                        <a href="index.php?sayfa=anasayfa" class="btn btn-light btn-sm rounded-pill text-muted">Vazgeç</a>
                     </div>
                 </form>
             </div>
